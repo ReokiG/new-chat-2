@@ -291,6 +291,33 @@ section.block{position:relative;padding:130px 0;width:100%}
 .phone .ph-tab i{width:14px;height:14px;border:1px solid rgba(255,255,255,.4);border-radius:3px}
 .phone .ph-tab i:first-child{background:var(--mint);border-color:var(--mint)}
 .visual-tag{position:absolute;left:12px;bottom:12px;font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:rgba(255,255,255,.4);text-transform:uppercase}
+/* showreel: real footage gallery (video + stills) */
+.showreel{width:100%;display:flex;flex-direction:column;gap:12px}
+.showreel__stage{position:relative;width:100%;aspect-ratio:16/9;border-radius:4px;overflow:hidden;background:#0b1210;border:1px solid rgba(255,255,255,.1);box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.showreel__stage video,.showreel__stage>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.showreel__stage>img{opacity:0;pointer-events:none}
+.showreel__stage.is-img>img{opacity:1}
+.showreel__stage.is-img video{opacity:0}
+.showreel__stage:hover video,.showreel__stage:hover>img{transform:scale(1.025)}
+.showreel__stage::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(0,0,0,.45),rgba(0,0,0,0) 40%)}
+.showreel__sound{position:absolute;right:10px;top:10px;z-index:2;display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(8,14,12,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:rgba(255,255,255,.85);font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:border-color .4s,color .4s,background .4s}
+.showreel__sound::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 0 rgba(201,240,216,.6);transition:box-shadow .4s}
+.showreel__sound:hover{border-color:rgba(201,240,216,.7);color:#fff}
+.showreel__sound.on::before{animation:sr-pulse 1.6s ease-out infinite}
+@keyframes sr-pulse{0%{box-shadow:0 0 0 0 rgba(201,240,216,.55)}100%{box-shadow:0 0 0 10px rgba(201,240,216,0)}}
+.showreel__tag{position:absolute;left:12px;bottom:12px;z-index:2;font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:rgba(255,255,255,.7);text-transform:uppercase}
+.showreel__thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.showreel__thumbs button{position:relative;aspect-ratio:16/9;padding:0;border:1px solid rgba(255,255,255,.14);border-radius:3px;overflow:hidden;background:#0b1210;cursor:pointer;transition:border-color .4s,opacity .4s,transform .6s cubic-bezier(.2,.7,.2,1);opacity:.62}
+.showreel__thumbs button img{width:100%;height:100%;object-fit:cover;display:block}
+.showreel__thumbs button i{position:absolute;left:6px;bottom:5px;font-style:normal;font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:rgba(255,255,255,.85);text-transform:uppercase;text-shadow:0 1px 4px rgba(0,0,0,.8)}
+.showreel__thumbs button::before{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--mint);transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.showreel__thumbs button:hover{opacity:1;transform:translateY(-2px)}
+.showreel__thumbs button.on{opacity:1;border-color:rgba(201,240,216,.7)}
+.showreel__thumbs button.on::before{transform:scaleX(1)}
+.showreel__flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:rgba(255,255,255,.38);text-transform:uppercase}
+.showreel__flow b{font-weight:400;color:rgba(201,240,216,.85)}
+.showreel__flow span::after{content:"→";margin-left:6px;color:rgba(255,255,255,.2)}
+.showreel__flow span:last-child::after{content:""}
 @media (max-width:980px){
   .card,.card.alt{grid-template-columns:1fr;padding:30px 24px;gap:30px}
   .card.alt .card__visual{order:1}.card.alt .card__body{order:2}
@@ -519,18 +546,19 @@ section.block>.wrap,.contact .wrap{position:relative}
       <article class="card reveal">
         <span class="card__no">01</span>
         <div class="card__visual">
-          <div class="pipeline">
-            <div class="row">
-              <div class="node"><i>01</i><b>选题</b><small>Topic</small></div>
-              <div class="node"><i>02</i><b>脚本</b><small>Script</small></div>
-              <div class="node"><i>03</i><b>分镜</b><small>Board</small></div>
-              <div class="node"><i>04</i><b>数字人</b><small>Avatar</small></div>
-              <div class="node"><i>05</i><b>TTS</b><small>Voice</small></div>
-              <div class="node"><i>06</i><b>剪辑</b><small>Edit</small></div>
-              <div class="node"><i>07</i><b>发布</b><small>Publish</small></div>
-              <div class="node"><i>08</i><b>复盘</b><small>Review</small></div>
+          <div class="showreel" data-showreel>
+            <div class="showreel__stage">
+              <video class="sr-video" src="assets/xianfeng.mp4" muted loop playsinline preload="none" poster="assets/xf_01.jpg"></video>
+              <img class="sr-img" src="assets/xf_01.jpg" alt="先锋期货 AI 数字人口播视频画面" loading="lazy" decoding="async">
+              <button class="showreel__sound" type="button" aria-pressed="false">开启声音</button>
+              <span class="showreel__tag">实拍成片 · AI 数字人口播</span>
             </div>
-            <div class="loop">选题库 · 脚本模板 · <b>可稳定复用的 8 步流程</b></div>
+            <div class="showreel__thumbs">
+              <button type="button" data-kind="video" data-label="实拍成片 · AI 数字人口播" class="on"><img src="assets/xf_01.jpg" alt="" loading="lazy"><i>成片 · 13s</i></button>
+              <button type="button" data-kind="img" data-src="assets/xf_01.jpg" data-label="口播画面 · 一手=10吨 / 1000g"><img src="assets/xf_01.jpg" alt="" loading="lazy"><i>口播画面</i></button>
+              <button type="button" data-kind="img" data-src="assets/xf_02.jpg" data-label="口播画面 · 行情屏场景"><img src="assets/xf_02.jpg" alt="" loading="lazy"><i>行情屏场景</i></button>
+            </div>
+            <div class="showreel__flow"><b>8 步流程</b><span>选题</span><span>脚本</span><span>分镜</span><span>数字人</span><span>TTS</span><span>剪辑</span><span>发布</span><span>复盘</span></div>
           </div>
         </div>
         <div class="card__body">
@@ -766,6 +794,29 @@ if(SHOT){document.documentElement.style.scrollBehavior='auto';document.querySele
   /* pause while the hero is off-screen to save battery */
   if('IntersectionObserver' in window){new IntersectionObserver(function(es){var vis=es.some(function(e){return e.isIntersecting});if(vis){if(loaded||document.readyState==='complete')start();}else{v.pause();}}).observe(document.getElementById('hero'));}
   document.addEventListener('visibilitychange',function(){if(document.hidden)v.pause();else if(window.scrollY<window.innerHeight)start();});
+})();
+
+/* ---------- works card 01 showreel: muted loop while in view, click a thumb to swap video / still, optional sound ---------- */
+(function(){
+  var root=document.querySelector('[data-showreel]');if(!root)return;
+  var stage=root.querySelector('.showreel__stage'),v=root.querySelector('.sr-video'),img=root.querySelector('.sr-img'),
+      tag=root.querySelector('.showreel__tag'),snd=root.querySelector('.showreel__sound'),thumbs=root.querySelectorAll('.showreel__thumbs button');
+  var inView=false,wantSound=false,isVideo=true;
+  function play(){if(SHOT||REDUCED)return;if(!isVideo||!inView||document.hidden)return;var p=v.play();if(p&&p.catch)p.catch(function(){});}
+  function show(kind,src,label,btn){
+    thumbs.forEach(function(b){b.classList.toggle('on',b===btn)});
+    isVideo=kind==='video';
+    if(isVideo){stage.classList.remove('is-img');play();}
+    else{stage.classList.add('is-img');img.src=src;v.pause();}
+    tag.textContent=label||'';
+  }
+  thumbs.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.kind,b.dataset.src,b.dataset.label,b)})});
+  snd.addEventListener('click',function(){
+    wantSound=!wantSound;v.muted=!wantSound;snd.classList.toggle('on',wantSound);snd.setAttribute('aria-pressed',wantSound?'true':'false');
+    snd.textContent=wantSound?'声音已开':'开启声音';if(wantSound)play();
+  });
+  if('IntersectionObserver' in window){new IntersectionObserver(function(es){inView=es.some(function(e){return e.isIntersecting});if(inView)play();else v.pause();},{threshold:.25}).observe(stage);}
+  document.addEventListener('visibilitychange',function(){if(document.hidden)v.pause();else play();});
 })();
 
 /* ---------- swarm cursor (ported from React Bits <SwarmCursor />, vanilla JS + WebGL2) ---------- */
